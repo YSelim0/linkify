@@ -57,6 +57,7 @@ export class User {
     @Prop({
         type: Array<Link>,
         required: false,
+        default: []
     })
     links!: Array<Link>;
 

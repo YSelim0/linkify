@@ -7,10 +7,12 @@ import * as express from "express";
 
 import { UserModule } from "@modules/user/user.module";
 import config from "@config/index";
+import { AuthModule } from "@modules/auth/auth.module";
 
 @Module({
     imports: [
         UserModule,
+        AuthModule,
         ConfigModule.forRoot({
             load: [config],
             isGlobal: true,
