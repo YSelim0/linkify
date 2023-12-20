@@ -4,6 +4,8 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path';
 
 import { AppModule } from '@modules/app/app.module';
+import { HttpExceptionFilter } from '@common/filters/http-exception.filter';
+import { ValidationPipe } from '@common/pipes/validation.pipe';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -18,7 +20,9 @@ async function bootstrap() {
 
   app.set('trust proxy', 1);
   app.setGlobalPrefix('api');
-  //http exception filter, validation pipe
+
+  app.useGlobalFilters(new HttpExceptionFilter());
+  app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(configService.get('port')!);
 }
