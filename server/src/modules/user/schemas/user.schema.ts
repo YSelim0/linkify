@@ -9,7 +9,7 @@ export type UserDocument = User & Document;
     versionKey: false,
     timestamps: {
         updatedAt: false,
-        createdAt: 'registrationDate',
+        createdAt: "registrationDate",
     }
 })
 export class User {
@@ -19,7 +19,7 @@ export class User {
         unique: true,
         validate: {
             validator: (val: string) => /\S+@\S+\.\S+/.test(val),
-            message: 'E-mail format is not valid.'
+            message: "E-mail format is not valid."
         }
     })
     email!: string;
@@ -27,14 +27,14 @@ export class User {
     @Prop({
         type: String,
         required: true,
-        minlength: [3, 'Display name must be longer than 3 characters.'],
-        maxlength: [32, 'Display name must be shorter than 32 characters.'],
+        minlength: [3, "Display name must be longer than 3 characters."],
+        maxlength: [32, "Display name must be shorter than 32 characters."],
     })
     displayName!: string;
 
     @Prop({
         type: String,
-        minlength: [6, 'Password must be longer than 6 characters.'],
+        minlength: [6, "Password must be longer than 6 characters."],
         required: true,
         select: false,
         set: (val: string) => {
@@ -47,11 +47,11 @@ export class User {
         type: String,
         required: false,
         default: "",
-        maxlength: [32, 'Description must be shorter than 32 characters.'],
+        maxlength: [32, "Description must be shorter than 32 characters."],
     })
     description!: string;
 
-    @Prop({ type: [{ type: mongoose.Types.ObjectId, ref: 'Link' }] })
+    @Prop({ type: [{ type: mongoose.Types.ObjectId, ref: "Link" }] })
     links!: [];
 
     @Prop({

@@ -1,7 +1,9 @@
-import { CreateProfileDTO } from "@modules/user/dto/create-profile.dto";
+import { CreateProfileDTO } from "@modules/auth/dto/create-profile.dto";
 import { UserDocument } from "@modules/user/schemas/user.schema";
 import { UserService } from "@modules/user/user.service";
 import { BadRequestException, Injectable } from "@nestjs/common";
+import { LoginProfileDTO } from "./dto/login-profile.dto";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class AuthService {
@@ -12,11 +14,25 @@ export class AuthService {
     }
 
     async register(user: CreateProfileDTO): Promise<UserDocument> {
-        if (await this.isFieldTaken('email', user.email)) {
-            throw new BadRequestException('Email is already taken');
+        if (await this.isFieldTaken("email", user.email)) {
+            throw new BadRequestException("Email is already taken");
         }
 
         const createdUser = await this.userService.create(user);
         return this.userService.findById(createdUser._id);
+    }
+
+    async login(user: LoginProfileDTO): Promise<UserDocument> {
+        const foundUser = await this.userService.findOneBy({ email: user.email }).select("+password");
+
+        const isPasswordsMatch: boolean = await bcrypt.compare(user.password, foundUser.password);
+        
+        if (!isPasswordsMatch) {
+            throw new BadRequestException("Username or password is incorrect");
+        }
+
+        foundUser.password = "";
+        
+        return foundUser;
     }
 }

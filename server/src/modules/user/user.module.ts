@@ -12,7 +12,7 @@ import { UserService } from "./user.service";
                 name: User.name,
                 imports: [ConfigModule],
                 useFactory: (configService: ConfigService) => {
-                    const defaultProfilePhotoURL = `${configService.get('appBaseURL')}/storage/photos/defaults/profile-photo.jpg`;
+                    const defaultProfilePhotoURL = `${configService.get("appBaseURL")}/storage/photos/defaults/profile-photo.jpg`;
                     UserSchema.paths.profilePhoto.default(defaultProfilePhotoURL);
                     
                     return UserSchema;

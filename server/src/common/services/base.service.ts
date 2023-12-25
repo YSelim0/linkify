@@ -1,4 +1,4 @@
-import { Model, Query } from 'mongoose'
+import { Model, Query } from "mongoose"
 
 export class BaseService {
   constructor(private readonly model: Model<any>) {}

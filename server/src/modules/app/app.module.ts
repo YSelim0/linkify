@@ -22,7 +22,7 @@ import { LinkModule } from "@modules/link/link.module";
         MongooseModule.forRootAsync({
             imports: [ConfigModule],
             useFactory: (configService: ConfigService) => ({
-                uri: configService.get('databaseURI'),
+                uri: configService.get("databaseURI"),
                 useNewUrlParser: true,
             }),
             inject: [ConfigService]
@@ -33,8 +33,8 @@ export class AppModule {
     constructor() {}
 
     configure(consumer: MiddlewareConsumer) {
-        consumer.apply(helmet(), compression()).forRoutes('*');
+        consumer.apply(helmet(), compression()).forRoutes("*");
 
-        consumer.apply(express.json(), express.urlencoded({ extended: false })).forRoutes('*');
+        consumer.apply(express.json(), express.urlencoded({ extended: false })).forRoutes("*");
     }
 }
