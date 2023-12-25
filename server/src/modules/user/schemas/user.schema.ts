@@ -1,14 +1,9 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import bcrypt from 'bcrypt';
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+import * as bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 export type UserDocument = User & Document;
-
-type Link = {
-    title: string;
-    url: string;
-    description: string;
-}
 
 @Schema({
     versionKey: false,
@@ -39,7 +34,9 @@ export class User {
 
     @Prop({
         type: String,
+        minlength: [6, 'Password must be longer than 6 characters.'],
         required: true,
+        select: false,
         set: (val: string) => {
             return val.length < 6 ? val : bcrypt.hashSync(val, 10)
         }
@@ -48,18 +45,14 @@ export class User {
 
     @Prop({
         type: String,
-        required: true,
-        minlength: [3, 'Description must be longer than 3 characters.'],
+        required: false,
+        default: "",
         maxlength: [32, 'Description must be shorter than 32 characters.'],
     })
     description!: string;
 
-    @Prop({
-        type: Array<Link>,
-        required: false,
-        default: []
-    })
-    links!: Array<Link>;
+    @Prop({ type: [{ type: mongoose.Types.ObjectId, ref: 'Link' }] })
+    links!: [];
 
     @Prop({
         type: String,

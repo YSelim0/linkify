@@ -8,11 +8,13 @@ import * as express from "express";
 import { UserModule } from "@modules/user/user.module";
 import config from "@config/index";
 import { AuthModule } from "@modules/auth/auth.module";
+import { LinkModule } from "@modules/link/link.module";
 
 @Module({
     imports: [
         UserModule,
         AuthModule,
+        LinkModule,
         ConfigModule.forRoot({
             load: [config],
             isGlobal: true,
