@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { CreateLinkDTO } from "./dto/create-link.dto";
 import { LinkService } from "./link.service";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -15,14 +15,14 @@ export class LinkController {
 
     @Post("create")
     @UseInterceptors(
-        FileInterceptor('link-photo', {
-            dest: 'dist/storage/photos/links/link-photos',
-            fileFilter: fileFilter(['image/jpeg', 'image/jpg', 'image/png'])
+        FileInterceptor("link-photo", {
+            dest: "dist/storage/photos/links/link-photos",
+            fileFilter: fileFilter(["image/jpeg", "image/jpg", "image/png"])
         })
     )
     async createLink(@UploadedFile() file: Express.Multer.File, @Body() link: CreateLinkDTO) {
         const photoUrl = `${this.configService.get(
-            'appBaseURL'
+            "appBaseURL"
           )}/api/link/photo/${file.filename}`;
 
         const createdLink = await this.linkService.createLink(link, photoUrl);

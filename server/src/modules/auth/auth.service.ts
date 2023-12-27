@@ -35,7 +35,7 @@ export class AuthService {
             throw new BadRequestException("Email or password is incorrect");
         }
 
-        const authenticatedUser =  await this.userService.findById(currentUser._id).populate({ path: 'links', model : 'Link' });
+        const authenticatedUser =  await this.userService.findById(currentUser._id).populate({ path: "links", model : "Link" });
         
         return authenticatedUser;
     }

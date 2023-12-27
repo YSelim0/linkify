@@ -11,7 +11,7 @@ export class UserService extends BaseService {
     }
 
     async getAllUsers() {
-        const users =  await this.userModel.find().populate({ path: 'links', model : 'Link' });
+        const users =  await this.userModel.find().populate({ path: "links", model : "Link" });
         
         return users;
     }
