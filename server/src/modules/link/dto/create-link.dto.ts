@@ -1,4 +1,4 @@
-import { IsJWT, IsOptional, IsString, IsUrl, MaxLength } from "class-validator";
+import { IsJWT, IsString, IsUrl, MaxLength } from "class-validator";
 
 export class CreateLinkDTO {
     @IsJWT()

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 export type LinkDocument = Link & Document;
 
@@ -10,6 +10,12 @@ export type LinkDocument = Link & Document;
     }
 })
 export class Link {
+    @Prop({
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    })
+    userId!: string;
+
     @Prop({
         type: String,
         maxlength: [150, "Title must be shorter than 150 characters."]

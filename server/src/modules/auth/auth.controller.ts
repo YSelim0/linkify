@@ -19,7 +19,7 @@ export class AuthController {
             message: "Profile created successfully",
             payload: {
                 user: profile,
-                hashedUserId: await this.jwtService.signAsync({ userId: profile._id })
+                jwtUserId: await this.jwtService.signAsync({ userId: profile._id })
             }
         };
     }
@@ -32,7 +32,7 @@ export class AuthController {
             message: "Logged in successfully",
             payload: {
                 user: profile,
-                hashedUserId: await this.jwtService.signAsync({ userId: profile._id })
+                jwtUserId: await this.jwtService.signAsync({ userId: profile._id })
             }
         };
     }

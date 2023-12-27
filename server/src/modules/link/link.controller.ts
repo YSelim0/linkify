@@ -1,9 +1,10 @@
-import { Body, Controller, Get, Param, Post, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Res, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { CreateLinkDTO } from "./dto/create-link.dto";
 import { LinkService } from "./link.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { fileFilter } from "@common/utils/file-filter.util";
 import { ConfigService } from "@nestjs/config";
+import { DeleteLinkDTO } from "./dto/delete-link.dto";
 
 @Controller("link")
 export class LinkController {
@@ -37,5 +38,14 @@ export class LinkController {
     @Get("photo/:photoName")
     async getLinkPhoto(@Param("photoName") photoName: string, @Res() res: any) {
         res.sendFile(photoName, { root: "dist/storage/photos/links/link-photos" });
+    }
+
+    @Delete("delete")
+    async deleteLink(@Body() link: DeleteLinkDTO) {
+        await this.linkService.deleteLink(link);
+
+        return {
+            message: "Link deleted successfully"
+        };
     }
 }
