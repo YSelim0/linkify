@@ -7,6 +7,7 @@ import { JwtService } from "@nestjs/jwt";
 import { BaseService } from "@common/services/base.service";
 import { UserService } from "@modules/user/user.service";
 import { DeleteLinkDTO } from "./dto/delete-link.dto";
+import { UpdateLinkDTO } from "./dto/update-link.dto";
 
 @Injectable()
 export class LinkService extends BaseService {
@@ -53,5 +54,31 @@ export class LinkService extends BaseService {
 
         await this.userService.updateById(userId, { $pull: { links: link.linkId } });
         await this.deleteById(link.linkId);
+    }
+
+    async updateLink(link: UpdateLinkDTO) {
+        const jwtControl = await this.jwtService.verifyAsync(link.jwtUserId);
+
+        if (!jwtControl) {
+            throw new BadRequestException("Invalid JWT");
+        }
+
+        const userId = this.jwtService.decode(link.jwtUserId).userId;
+        const currentLink: LinkDocument = await this.findById(link.linkId);
+
+        if (!currentLink) {
+            throw new BadRequestException("Link not found.");
+        }
+
+        if (currentLink.userId != userId) {
+            throw new BadRequestException("This link does not belong to user.");
+        }
+        
+        currentLink.title = link.title || currentLink.title;
+        currentLink.description = link.description || currentLink.description;
+        currentLink.url = link.url || currentLink.url;
+
+        await currentLink.save();
+        return currentLink;
     }
 }

@@ -5,6 +5,7 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { fileFilter } from "@common/utils/file-filter.util";
 import { ConfigService } from "@nestjs/config";
 import { DeleteLinkDTO } from "./dto/delete-link.dto";
+import { UpdateLinkDTO } from "./dto/update-link.dto";
 
 @Controller("link")
 export class LinkController {
@@ -46,6 +47,18 @@ export class LinkController {
 
         return {
             message: "Link deleted successfully"
+        };
+    }
+
+    @Put("update")
+    async updateLink(@Body() link: UpdateLinkDTO) {
+        const updatedLink = await this.linkService.updateLink(link);
+
+        return {
+            message: "Link updated successfully",
+            payload: {
+                link: updatedLink
+            }
         };
     }
 }
