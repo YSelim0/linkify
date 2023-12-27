@@ -7,7 +7,7 @@ export class UserController {
 
     @Get()
     async getAllUsers() {
-        const users = await this.userService.getAllUsers();
+        const users = await this.userService.findAll().populate({ path: "links", model : "Link" });
 
         return {
             message: "Users fetched successfully",

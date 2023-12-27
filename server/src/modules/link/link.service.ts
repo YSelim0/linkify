@@ -26,9 +26,13 @@ export class LinkService extends BaseService {
             throw new BadRequestException("Invalid JWT");
         }
 
-        const userId = this.jwtService.decode(link.jwtUserId).userId;
-        const createdLink = await this.create({ ...link, photoUrl, userId });
+        const userId = await this.jwtService.decode(link.jwtUserId).userId;
 
+        if (!await this.userService.findById(userId)) {
+            throw new BadRequestException("User not found.");
+        }
+        
+        const createdLink = await this.create({ ...link, photoUrl, userId });
         await this.userService.updateById(userId, { $push: { links: createdLink._id } });
 
         return createdLink;
@@ -41,7 +45,7 @@ export class LinkService extends BaseService {
             throw new BadRequestException("Invalid JWT");
         }
 
-        const userId = this.jwtService.decode(link.jwtUserId).userId;
+        const userId = await this.jwtService.decode(link.jwtUserId).userId;
         const currentLink: LinkDocument = await this.findById(link.linkId);
 
         if (!currentLink) {
@@ -63,7 +67,7 @@ export class LinkService extends BaseService {
             throw new BadRequestException("Invalid JWT");
         }
 
-        const userId = this.jwtService.decode(link.jwtUserId).userId;
+        const userId = await this.jwtService.decode(link.jwtUserId).userId;
         const currentLink: LinkDocument = await this.findById(link.linkId);
 
         if (!currentLink) {

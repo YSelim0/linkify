@@ -34,6 +34,19 @@ export class User {
 
     @Prop({
         type: String,
+        required: true,
+        unique: true,
+        minlength: [3, "Slug must be longer than 3 characters."],
+        maxlength: [32, "Slug must be shorter than 32 characters."],
+        validate: {
+            validator: (val: string) => /^[a-z0-9-]+$/i.test(val),
+            message: "Slug format is not valid."
+        },
+    })
+    slug!: string;
+
+    @Prop({
+        type: String,
         minlength: [6, "Password must be longer than 6 characters."],
         required: true,
         select: false,

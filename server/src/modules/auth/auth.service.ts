@@ -18,6 +18,10 @@ export class AuthService {
             throw new BadRequestException("Email is already taken");
         }
 
+        if (await this.isFieldTaken("slug", user.slug)) {
+            throw new BadRequestException("Slug is already taken");
+        }
+
         const createdUser = await this.userService.create(user);
         return this.userService.findById(createdUser._id);
     }
