@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
 
-type LinkDocument = Link & Document;
+export type LinkDocument = Link & Document;
 
 @Schema({
     versionKey: false,
@@ -11,13 +12,13 @@ type LinkDocument = Link & Document;
 export class Link {
     @Prop({
         type: String,
-        maxlength: [200, "Title must be shorter than 200 characters."]
+        maxlength: [150, "Title must be shorter than 150 characters."]
     })
     title!: string;
 
     @Prop({
         type: String,
-        maxlength: [500, "Description must be shorter than 500 characters."]
+        maxlength: [300, "Description must be shorter than 300 characters."]
     })
     description!: string;
 
@@ -29,7 +30,7 @@ export class Link {
     @Prop({
         type: String
     })
-    photo!: string;
+    photoUrl!: string;
 }
 
 export const LinkSchema = SchemaFactory.createForClass(Link);

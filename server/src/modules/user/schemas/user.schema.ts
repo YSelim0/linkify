@@ -47,7 +47,7 @@ export class User {
         type: String,
         required: false,
         default: "",
-        maxlength: [32, "Description must be shorter than 32 characters."],
+        maxlength: [300, "Description must be shorter than 300 characters."],
     })
     description!: string;
 
@@ -58,7 +58,7 @@ export class User {
         type: String,
         required: false
     })
-    profilePhoto?: string;
+    profilePhoto!: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -2,7 +2,7 @@ import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { MongooseModule } from "@nestjs/mongoose";
 import helmet from "helmet";
-import * as compression from "compression";
+import compression from "compression";
 import * as express from "express";
 
 import { UserModule } from "@modules/user/user.module";

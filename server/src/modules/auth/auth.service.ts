@@ -23,16 +23,20 @@ export class AuthService {
     }
 
     async login(user: LoginProfileDTO): Promise<UserDocument> {
-        const foundUser = await this.userService.findOneBy({ email: user.email }).select("+password");
+        const currentUser = await this.userService.findOneBy({ email: user.email }).select("+password");
 
-        const isPasswordsMatch: boolean = await bcrypt.compare(user.password, foundUser.password);
-        
-        if (!isPasswordsMatch) {
-            throw new BadRequestException("Username or password is incorrect");
+        if (!currentUser) {
+            throw new BadRequestException("Email or password is incorrect");
         }
 
-        foundUser.password = "";
+        const isPasswordsMatch: boolean = await bcrypt.compare(user.password, currentUser.password);
         
-        return foundUser;
+        if (!isPasswordsMatch) {
+            throw new BadRequestException("Email or password is incorrect");
+        }
+
+        const authenticatedUser =  await this.userService.findById(currentUser._id).populate({ path: 'links', model : 'Link' });
+        
+        return authenticatedUser;
     }
 }

@@ -9,4 +9,10 @@ export class UserService extends BaseService {
     constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {
         super(userModel);
     }
+
+    async getAllUsers() {
+        const users =  await this.userModel.find().populate({ path: 'links', model : 'Link' });
+        
+        return users;
+    }
 }
