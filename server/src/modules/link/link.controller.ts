@@ -6,6 +6,7 @@ import { fileFilter } from "@common/utils/file-filter.util";
 import { ConfigService } from "@nestjs/config";
 import { DeleteLinkDTO } from "./dto/delete-link.dto";
 import { UpdateLinkDTO } from "./dto/update-link.dto";
+import { UpdateLinkPhotoDTO } from "./dto/update-link-photo.dto";
 
 @Controller("link")
 export class LinkController {
@@ -56,6 +57,28 @@ export class LinkController {
 
         return {
             message: "Link updated successfully",
+            payload: {
+                link: updatedLink
+            }
+        };
+    }
+
+    @Put("update-photo")
+    @UseInterceptors(
+        FileInterceptor("link-photo", {
+            dest: "dist/storage/photos/links/link-photos",
+            fileFilter: fileFilter(["image/jpeg", "image/jpg", "image/png"])
+        })
+    )
+    async updateLinkPhoto(@UploadedFile() file: Express.Multer.File, @Body() link: UpdateLinkPhotoDTO) {
+        const photoUrl = `${this.configService.get(
+            "appBaseURL"
+          )}/api/link/photo/${file.filename}`;
+        
+        const updatedLink = await this.linkService.updateLinkPhoto(link, photoUrl);
+
+        return {
+            message: "Link photo updated successfully",
             payload: {
                 link: updatedLink
             }

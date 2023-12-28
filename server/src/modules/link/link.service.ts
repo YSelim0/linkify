@@ -85,4 +85,28 @@ export class LinkService extends BaseService {
         await currentLink.save();
         return currentLink;
     }
+
+    async updateLinkPhoto(link: UpdateLinkDTO, photoUrl: string) {
+        const jwtControl = await this.jwtService.verifyAsync(link.jwtUserId);
+
+        if (!jwtControl) {
+            throw new BadRequestException("Invalid JWT");
+        }
+
+        const userId = await this.jwtService.decode(link.jwtUserId).userId;
+        const currentLink: LinkDocument = await this.findById(link.linkId);
+
+        if (!currentLink) {
+            throw new BadRequestException("Link not found.");
+        }
+
+        if (currentLink.userId != userId) {
+            throw new BadRequestException("This link does not belong to user.");
+        }
+        
+        currentLink.photoUrl = photoUrl;
+
+        await currentLink.save();
+        return currentLink;
+    }
 }
