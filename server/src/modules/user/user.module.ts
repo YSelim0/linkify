@@ -4,6 +4,7 @@ import { User, UserSchema } from "./schemas/user.schema";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { UserController } from "./user.controller";
 import { UserService } from "./user.service";
+import { JwtModule } from "@nestjs/jwt";
 
 @Module({
     imports: [
@@ -19,7 +20,15 @@ import { UserService } from "./user.service";
                 },
                 inject: [ConfigService],
             }
-        ])
+        ]),
+        JwtModule.registerAsync({
+            imports: [ConfigModule],
+            useFactory: async (configService: ConfigService) => ({
+                secret: configService.get("jwtSecret"),
+                signOptions: { expiresIn: "1d" }
+            }),
+            inject: [ConfigService]
+        }),
     ],
     controllers: [UserController], 
     providers: [UserService],

@@ -74,7 +74,7 @@ export class LinkController {
         const photoUrl = `${this.configService.get(
             "appBaseURL"
           )}/api/link/photo/${file.filename}`;
-        
+
         const updatedLink = await this.linkService.updateLinkPhoto(link, photoUrl);
 
         return {
