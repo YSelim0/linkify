@@ -60,9 +60,9 @@ export class User {
         type: String,
         required: false,
         default: "",
-        maxlength: [300, "Description must be shorter than 300 characters."],
+        maxlength: [300, "Biography must be shorter than 300 characters."],
     })
-    description!: string;
+    biography!: string;
 
     @Prop({ type: [{ type: mongoose.Types.ObjectId, ref: "Link" }] })
     links!: [];

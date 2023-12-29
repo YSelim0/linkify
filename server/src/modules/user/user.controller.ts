@@ -4,6 +4,7 @@ import { UpdateUserPhotoDTO } from "./dto/update-user-photo.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { fileFilter } from "@common/utils/file-filter.util";
 import { ConfigService } from "@nestjs/config";
+import { UpdateUserDTO } from "./dto/update-user.dto";
 
 @Controller("user")
 export class UserController {
@@ -49,5 +50,17 @@ export class UserController {
     @Get("photo/:photoName")
     async getUserPhoto(@Param("photoName") photoName, @Res() res: any) {
         res.sendFile(photoName, { root: "dist/storage/photos/users/user-photos" });
+    }
+
+    @Put("update")
+    async updateUser(@Body() user: UpdateUserDTO) {
+        const updatedUser = await this.userService.updateUser(user);
+
+        return {
+            message: "User updated successfully",
+            payload: {
+                user: updatedUser
+            }
+        };
     }
 }

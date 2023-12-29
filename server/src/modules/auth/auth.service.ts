@@ -32,7 +32,7 @@ export class AuthService {
         if (!currentUser) {
             throw new BadRequestException("Email or password is incorrect");
         }
-
+        
         const isPasswordsMatch: boolean = await bcrypt.compare(user.password, currentUser.password);
         
         if (!isPasswordsMatch) {
