@@ -63,4 +63,23 @@ export class UserController {
             }
         };
     }
+
+    @Get(":slug")
+    async getUserProfile(@Param("slug") slug: string) {
+        const user = await this.userService.findBy({ slug }).populate({ path: "links", model : "Link" });
+        
+        if (!user || user.length === 0) {
+            return {
+                message: "User not found",
+                payload: null
+            };
+        }
+
+        return {
+            message: "User fetched successfully",
+            payload: {
+                user
+            }
+        };
+    }
 }
