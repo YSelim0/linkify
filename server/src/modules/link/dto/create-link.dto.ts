@@ -1,4 +1,4 @@
-import { IsJWT, IsString, IsUrl, MaxLength } from "class-validator";
+import { IsHexColor, IsJWT, IsOptional, IsString, IsUrl, MaxLength } from "class-validator";
 
 export class CreateLinkDTO {
     @IsJWT()
@@ -16,4 +16,14 @@ export class CreateLinkDTO {
     @IsString()
     @IsUrl()
     url!: string;
+
+    @IsString()
+    @IsHexColor()
+    @IsOptional()
+    backgroundColor?: string;
+
+    @IsString()
+    @IsHexColor()
+    @IsOptional()
+    textColor?: string;
 }

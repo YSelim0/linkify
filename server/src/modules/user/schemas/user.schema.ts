@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { Document } from "mongoose";
 import * as bcrypt from "bcrypt";
 import mongoose from "mongoose";
+import { Theme } from "@common/enums/theme.enum";
 
 export type UserDocument = User & Document;
 
@@ -72,6 +73,13 @@ export class User {
         required: false
     })
     profilePhoto!: string;
+
+    @Prop({
+        type: String,
+        required: false,
+        default: Theme.Standart
+    })
+    theme!: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

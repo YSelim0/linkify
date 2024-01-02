@@ -37,6 +37,18 @@ export class Link {
         type: String
     })
     photoUrl!: string;
+
+    @Prop({
+        type: String,
+        default: "#FFFFFF"
+    })
+    backgroundColor!: string;
+
+    @Prop({
+        type: String,
+        default: "#000000"
+    })
+    textColor!: string;
 }
 
 export const LinkSchema = SchemaFactory.createForClass(Link);

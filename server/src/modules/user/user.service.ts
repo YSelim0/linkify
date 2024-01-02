@@ -63,12 +63,13 @@ export class UserService extends BaseService {
         userToUpdate.displayName = user.displayName || userToUpdate.displayName;
         userToUpdate.slug = user.slug || userToUpdate.slug;
         userToUpdate.biography = user.biography || userToUpdate.biography;
+        userToUpdate.theme = user.theme || userToUpdate.theme;
         
         if (user.password) {
             userToUpdate.password = user.password;
         }
 
         await userToUpdate.save();
-        return userToUpdate;
+        return await userToUpdate.populate({ path: "links", model : "Link" });
     }
 }

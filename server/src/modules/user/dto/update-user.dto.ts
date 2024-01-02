@@ -1,4 +1,5 @@
-import { IsJWT, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { Theme } from "@common/enums/theme.enum";
+import { IsEnum, IsJWT, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
 
 export class UpdateUserDTO {
     @IsJWT()
@@ -27,4 +28,9 @@ export class UpdateUserDTO {
     @IsOptional()
     @MinLength(6)
     password?: string;
+
+    @IsString()
+    @IsOptional()
+    @IsEnum(Theme)
+    theme?: string;
 }
